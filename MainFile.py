@@ -23,7 +23,7 @@ head.shape("square")
 head.color("black")
 head.penup()
 head.goto(0,0)
-head.direction = "right"
+head.direction = "stop"
 
 #Snake Segments
 segments = []
@@ -39,13 +39,23 @@ food.goto(10,20)
 #Score Card
 pen = turtle.Turtle()
 pen.speed(0)
-pen.shape("square")
+#pen.shape("square")
 pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0,260)
 pen.write("Score: 0 HighScore: 0",align="Center",font=("Courier", 24, "normal"))
 
+#Score Card
+p = turtle.Turtle()
+p.speed(0)
+#pen.shape("square")
+p.color("white")
+p.penup()
+p.hideturtle()
+p.goto(0,180)
+p.write("Score",align="Center",font=("Courier", 24, "normal"))
+p.clear()
 
 def go_up():
     if head.direction != "down":
@@ -91,11 +101,14 @@ wn.onkeypress(go_right,"d")
 while(1):
     wn.update()
 
-    #Check for collision
+    #Check for collision with borders
     if(head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290):
         time.sleep(1)
         head.goto(0,0)
+        p.write("You are Gone!!!!",align="Center",font=("Courier", 24, "normal"))
+        time.sleep(1)
         head.direction="stop"
+        p.clear()
 
         for segment in segments:
             segment.goto(1000,1000)
@@ -147,11 +160,15 @@ while(1):
 
     move()
 
+    #Check for collision with snake body
     for seg in segments:
         if seg.distance(head) < 20:
             time.sleep(1)
             head.goto(0, 0)
+            p.write("You are Gone!!!!", align="Center", font=("Courier", 24, "normal"))
+            time.sleep(1)
             head.direction = "stop"
+            p.clear()
 
             # Hide Segments
             for seg in segments:
